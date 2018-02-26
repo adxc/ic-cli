@@ -1,0 +1,46 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+const chalk = require('chalk')
+const LocalFile = require('../lib/local-file')
+const path = require('path')
+const isLocalProject = LocalFile.isLocalProject
+
+program
+  .usage('[project-name]')
+  .option('-c, --clone', 'use git clone')
+  .option('--offline', 'use cached template')
+
+
+program.on('--help', () => {
+  console.log('  Examples:')
+  console.log()
+  console.log('    # 新建模板项目')
+  console.log(chalk.green('    $ ic init my-project'))
+  console.log()
+  console.log('    # 新建git仓库项目')
+  console.log(chalk.green('    $ ic init my-project username/repo'))
+  console.log()
+})
+
+
+/** 
+ * @description:判断初始化参数
+*/
+function help() {
+  program.parse(process.argv)
+  if (program.args.length === 0) return program.help()
+}
+help()
+
+let projectName= program.args[0]
+let project = path.join(process.cwd(),projectName)
+
+function run(){
+  if(isLocalProject(project)){
+
+  }else{
+    console.log(chalk.red("存在相同项目名"))
+  }
+}
+run()
