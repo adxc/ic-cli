@@ -2,9 +2,12 @@
 
 const program = require('commander')
 const chalk = require('chalk')
-const LocalFile = require('../lib/local-file')
 const path = require('path')
+const LocalFile = require('../lib/local-file')
+const ask = require('../lib/ask')
+const download = require('../lib/git-tmp')
 const isLocalProject = LocalFile.isLocalProject
+const createLocalTemplate = LocalFile.createLocalTemplate
 
 program
   .usage('[project-name]')
@@ -26,20 +29,26 @@ program.on('--help', () => {
 
 /** 
  * @description:判断初始化参数
-*/
+ */
 function help() {
   program.parse(process.argv)
   if (program.args.length === 0) return program.help()
 }
 help()
 
-let projectName= program.args[0]
-let project = path.join(process.cwd(),projectName)
+let projectName = program.args[0]
+let project = path.join(process.cwd(), projectName)
 
-function run(){
-  if(isLocalProject(project)){
-
-  }else{
+async function run() {
+  if (isLocalProject(project)) {
+    const config = await ask()
+    const isDown = download(project)
+    isDown.then(value => {
+      if (!value) {
+         const created = createLocalTemplate(project, projectName)
+      }
+    })
+  } else {
     console.log(chalk.red("存在相同项目名"))
   }
 }
