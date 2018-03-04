@@ -8,6 +8,7 @@ const ask = require('../lib/ask')
 const download = require('../lib/git-tmp')
 const isLocalProject = LocalFile.isLocalProject
 const createLocalTemplate = LocalFile.createLocalTemplate
+const deleteCaCheTemplate = LocalFile.deleteCaCheTemplate
 
 program
   .usage('[project-name]')
@@ -45,7 +46,12 @@ async function run() {
     const isDown = download(project)
     isDown.then(value => {
       if (!value) {
-         const created = createLocalTemplate(project, projectName)
+        createLocalTemplate(project, projectName)
+        process.on("beforeExit",err=>{
+          deleteCaCheTemplate(project)
+        })
+      }else{
+        console.log(value)
       }
     })
   } else {

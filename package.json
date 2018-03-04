@@ -1,13 +1,13 @@
 {
     "name": "ic-cli",
     "version": "1.0.0",
-    "description": "",
+    "description": "自用脚手架",
     "main": "index.js",
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "andyxic",
-    "license": "ISC",
+    "license": "MIT",
     "bin": {
       "ic": "bin/ic",
       "ic-init": "bin/ic-init"
